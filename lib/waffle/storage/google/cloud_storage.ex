@@ -55,6 +55,15 @@ defmodule Waffle.Storage.Google.CloudStorage do
     )
   end
 
+  @spec raw_delete(String.t(), String.t()) :: object_or_error()
+  def raw_delete(bucket_name, filename) do
+    Objects.storage_objects_delete(
+      conn(),
+      bucket_name,
+      URI.encode_www_form(filename)
+    )
+  end
+
   @spec list(String.t(), String.t()) :: objects_or_error()
   def list(bucket_name, prefix) do
     Objects.storage_objects_list(
