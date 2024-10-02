@@ -23,6 +23,7 @@ defmodule Waffle.Storage.Google.CloudStorage do
   alias Waffle.Types
 
   @type object_or_error :: {:ok, GoogleApi.Storage.V1.Model.Object.t} | {:error, Tesla.Env.t}
+  @type objects_or_error :: {:ok, GoogleApi.Storage.V1.Model.Objects.t()} | {:error, Tesla.Env.t}
 
   @doc """
   Put a Waffle file in a Google Cloud Storage bucket.
@@ -51,6 +52,15 @@ defmodule Waffle.Storage.Google.CloudStorage do
       conn(),
       bucket(definition),
       path_for(definition, version, meta) |> URI.encode_www_form()
+    )
+  end
+
+  @spec list(String.t(), String.t()) :: objects_or_error()
+  def list(bucket_name, prefix) do
+    Objects.storage_objects_list(
+      conn(),
+      bucket_name,
+      prefix: prefix
     )
   end
 
