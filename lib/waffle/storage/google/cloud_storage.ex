@@ -60,7 +60,7 @@ defmodule Waffle.Storage.Google.CloudStorage do
     Objects.storage_objects_delete(
       conn(),
       bucket_name,
-      URI.encode_www_form(filename)
+      filename
     )
   end
 
